@@ -1,0 +1,323 @@
+/* ---- Global Styles ---- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body.page-body {
+    background-color: #f8f8f8;
+    color: #333;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ---- Flash Messages ---- */
+.flash-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: 80%;
+    max-width: 600px;
+}
+
+.flash-messages {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ffeeba;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flash-message {
+    margin-bottom: 5px;
+    flex: 1;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #856404;
+    font-size: 24px;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+
+.close-btn:hover {
+    color: #f44336; /* Couleur rouge pour l'effet hover */
+}
+
+.close-btn:focus {
+    outline: none;
+}
+
+/* ---- Flash Messages Animation ---- */
+.flash-messages {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* ---- Header ---- */
+.header {
+    background-color: #004d40;
+    padding: 10px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.logo {
+    font-size: 1.8rem;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    padding: 0;
+}
+
+.nav-links-left,
+.nav-links-right {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links-left {
+    margin-right: auto; /* Push the left items to the left */
+}
+
+.nav-links-right {
+    margin-left: auto; /* Push the right items to the right */
+}
+
+.nav-item {
+    margin: 0 10px;
+}
+
+.nav-link {
+    color: #fff;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: #00796b;
+}
+
+.nav-item.active .nav-link {
+    background-color: #00796b;
+}
+
+/* ---- User Welcome and Logout Button ---- */
+.user-welcome {
+    color: #fff;
+    margin-right: 10px;
+}
+
+.logout-form {
+    display: inline-block;
+}
+
+.btn {
+    padding: 8px 15px;
+    border: none;
+    background-color: #004d40;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #00796b;
+}
+
+/* ---- Main Content ---- */
+.main-content {
+    padding: 40px 0;
+}
+
+.content-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* ---- Footer ---- */
+.footer {
+    background-color: #004d40;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+.footer-container {
+    width: 100%;
+}
+
+.footer-text {
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* ---- Responsive Design ---- */
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-links-left,
+    .nav-links-right {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .flash-messages {
+        width: 90%;
+    }
+}
+
+
+
+
+
+/* Conteneur du formulaire */
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Style des étiquettes */
+form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Champs de saisie */
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #555;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* Boutons */
+form button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Message d'erreur ou de validation */
+.form-error {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: -12px;
+    margin-bottom: 16px;
+}
+
+.form-success {
+    color: #28a745;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+/* Style des zones de texte */
+form textarea {
+    resize: vertical;
+    min-height: 100px;
+}

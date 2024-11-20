@@ -3,74 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Mon Application{% endblock %}</title>
+    <title>{% block title %}GentilOiseau - Quiz d'Oiseaux{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    {% block css %}{% endblock %}
-
 </head>
-<body>
-{% with messages = get_flashed_messages(with_categories=True) %}
-    {% if messages %}
-        <div class="flash-container">
-            {% for category, message in messages %}
-                <div class="flash {{ category }}">
-                    <span class="flash-message">{{ message }}</span>
-                    <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+<body class="page-body">
+
+        <!-- Affichage des messages flash -->
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div class="flash-container">
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">
+                            <p>{{ message[1] }}</p> <!-- message[1] correspond au texte du message -->
+                            <button class="close-btn"  onclick="this.closest('.flash-container').style.display='none';"onclick="this.closest('.flash-message').style.display='none';" onclick="this.closest('.flash-Message').style.display='none';" aria-label="Fermer ce message">&times;</button>
+                        </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endwith %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
 
 
+    <!-- Header avec navigation -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="/" class="logo" aria-label="Retour à l'accueil de GentilOiseau">GentilOiseau</a>
+                <ul class="nav-links nav-links-left">
+                    <li class="nav-item {{ 'active' if request.path == '/' else '' }}">
+                        <a href="/" class="nav-link">Accueil</a>
+                    </li>
+                    <li class="nav-item {{ 'active' if request.path == '/quiz' else '' }}">
+                        <a href="/quiz" class="nav-link">Quiz</a>
+                    </li>
+                    <li class="nav-item {{ 'active' if request.path == '/about' else '' }}">
+                        <a href="/about" class="nav-link">À propos</a>
+                    </li>
+                </ul>
 
-    <header>
-
-        {% set edit_mode = session.get('edit_mode', False) %}
-
-
-        <h1>{% block h1 %}Mon Application{% endblock %}</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Accueil</a></li>
-                <li><a href="{{ url_for('oiseau_routes.liste_oiseaux') }}"> Oiseaux</a></li>
-                <li><a href="{{ url_for('message_routes.liste_utilisateurs') }}"> Ornitologues</a></li>
-                <li><a href="{{ url_for('message_routes.afficher_historique') }}"> Historique </a></li>
-                <li><a href="{{ url_for('pipeline_routes.tableau') }}">Recensement</a></li>
-                {% if current_user.is_authenticated %}
-                    {% if current_user.role == 'admin' %}
-                    <li><a href="{{ url_for('admin_routes.liste_propositions') }}">Liste des propositions</a></li>
+                <ul class="nav-links nav-links-right">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="user-welcome">Bienvenue, {{ current_user.nom_utilisateur }} !</span>
+                        </li>
+                        <li class="nav-item">
+                            <form action="/logout" method="POST" class="logout-form">
+                                <button type="submit" class="btn btn-logout">Déconnexion</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="/login" class="nav-link">Connexion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/register" class="nav-link">Inscription</a>
+                        </li>
                     {% endif %}
-                <li><a href="{{ url_for('main_routes.formulaire') }}">Soumettre un Oiseau</a></li>
-                <li><a href="{{ url_for('auth_routes.dashboard') }}">Tableau de bord</a></li>
-                <li><a href="{{ url_for('auth_routes.logout') }}">Déconnexion</a></li>
-                {% else %}
-                <li><a href="{{ url_for('auth_routes.login') }}">Connexion</a></li>
-                <li><a href="{{ url_for('auth_routes.gotosignup') }}">Inscription</a></li>
-                {% endif %}
-            </ul>
+                </ul>
+            </div>
         </nav>
     </header>
-
-    <main>
-
-        {% if current_user.is_authenticated %}
-        <a href="{{ url_for('oiseau_routes.changer_edit_mode') }}" class="btn">
-            {% if session.get('edit_mode', False) %}
-                Désactiver le mode édition
-            {% else %}
-                Activer le mode édition
-            {% endif %}
-        </a>
-        {% endif %}
-
-        {% block content %}
-        <!-- Le contenu spécifique à chaque page ira ici -->
-        {% endblock %}
+    
+    <!-- Main content area -->
+    <main class="main-content">
+        <div class="content-container">
+            {% block content %}
+            <!-- Contenu spécifique aux pages individuelles -->
+            {% endblock %}
+        </div>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Monde Enchanté des Oiseaux. Tous droits réservés.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="footer-text">&copy; 2024 GentilOiseau - Tous droits réservés</p>
+        </div>
     </footer>
+
 </body>
 </html>
+
