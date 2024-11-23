@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}GentilOiseau - Quiz d'Oiseaux{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block css %}{% endblock %}
 </head>
 <body class="page-body">
 
@@ -48,10 +49,14 @@
                         <li class="nav-item">
                             <span class="user-welcome">Bienvenue, {{ current_user.nom_utilisateur }} !</span>
                         </li>
-                        <li class="nav-item">
-                            <form action="/logout" method="POST" class="logout-form">
-                                <button type="submit" class="btn btn-logout">Déconnexion</button>
-                            </form>
+                        <li class="nav-item {{ 'active' if request.path == '/oiseaux' else '' }}">
+                            <a href="/oiseaux" class="nav-link">Faire une liste</a>
+                        </li>
+                        <li class="nav-item {{ 'active' if request.path == '/mes_listes' else '' }}">
+                            <a href="/mes_listes" class="nav-link">Mes quiz</a>
+                        </li>
+                        <li class="nav-item {{ 'active' if request.path == '/mes_listes' else '' }}">
+                            <a href="/logout" class="nav-link">Déconnexion</a>
                         </li>
                     {% else %}
                         <li class="nav-item">

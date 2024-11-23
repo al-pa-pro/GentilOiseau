@@ -1,11 +1,13 @@
 import os
 from dotenv import load_dotenv
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 from itsdangerous import URLSafeTimedSerializer
 
 from services.extensions import db, mail, login_manager
 from services.models import Utilisateur
 from routes.auth_routes import auth_routes
+from routes.quiz_routes import quiz_routes
+from routes.liste_routes import liste_routes
 
 # Charger les variables d'environnement
 load_dotenv()
@@ -17,9 +19,8 @@ def create_app():
     app = Flask(__name__)
     app.secret_key = SECRET_KEY
 
-
-
     # Configurations principales
+    app.config['UPLOAD_FOLDER'] = 'static/uploads/'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'BDDsqlite', 'oiseaux.db')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -42,13 +43,31 @@ def create_app():
 
     # Enregistrer les blueprints
     app.register_blueprint(auth_routes)
+    app.register_blueprint(quiz_routes)
+    app.register_blueprint(liste_routes)
 
     #route de base pour l'accueil
     @app.route('/')
     def accueil():
         return render_template('accueil.html')
+    
+    @app.route('/quiz')
+    def quiz():
+        return render_template('quiz.html')
+    
+    @app.route('/uploads/<region>/<filename>')
+    def serve_audio(region, filename):
+        # Vérifier si la région existe dans le dossier uploads
+        region_folder = os.path.join(app.config['UPLOAD_FOLDER'], region)
+        
+        if not os.path.exists(region_folder):
+            return "Région introuvable", 404  # Si la région n'existe pas, retour d'une erreur 404
+        
+        # Retourner le fichier audio depuis le sous-dossier de la région
+        return send_from_directory(region_folder, filename)
 
     return app
+
 
 
 

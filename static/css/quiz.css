@@ -1,0 +1,151 @@
+/* Fichier quiz.css */
+
+/* Style global */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* Conteneur principal */
+.quiz-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Mise en page principale : deux colonnes */
+.quiz-main-layout {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Section gauche */
+.left-section {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+/* Conteneur pour la recherche et la génération */
+.left-section div {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacement entre les éléments */
+    margin-bottom: 20px; /* Espacement sous le conteneur */
+}
+
+/* Section droite */
+.right-section {
+    flex: 1;
+    padding: 20px;
+    background-color: #fafafa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 500px;
+}
+
+/* Conteneur pour la recherche et la génération */
+.right-section div {
+    align-items: center;
+    gap: 10px; /* Espacement entre les éléments */
+    margin-bottom: 20px; /* Espacement sous le conteneur */
+}
+
+/* Titres */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Liste des oiseaux */
+.quiz-bird-list {
+    list-style: none;
+    padding: 0;
+}
+
+.quiz-bird-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Boutons */
+.quiz-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap; /* Empêche le texte de se couper */
+}
+
+
+.quiz-button:hover {
+    background-color: #0056b3;
+}
+
+/* Sélecteur de région */
+.quiz-region-select {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    margin-top: 10px; /* Espacement supplémentaire au-dessus */
+    width: 250px; /* Fixe une largeur plus raisonnable pour le select */
+    flex-grow: 1; /* Permet au sélecteur de prendre la place disponible */
+}
+
+.quiz-error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+
+
+/* Barre de recherche */
+.quiz-input {
+    width: 125px; /* Limite la largeur de l'input */
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+
+.quiz-input:focus {
+    border-color: #007bff; /* Couleur de focus */
+}
+

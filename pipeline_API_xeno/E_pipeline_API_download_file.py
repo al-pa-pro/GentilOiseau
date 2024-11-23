@@ -46,7 +46,7 @@ def download_file(region):
                 response = requests.get(url, stream=True)
                 response.raise_for_status()  # Vérifie si la requête a réussi
 
-                output_file = os.path.join(output_folder, f"{id_audio}.mp3")
+                output_file = os.path.join(f"{region}", f"{id_audio}.mp3")
 
                 # Sauvegarde du fichier téléchargé
                 with open(output_file, "wb") as file:

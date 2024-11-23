@@ -1,0 +1,63 @@
+
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/quiz.css') }}">
+{% endblock %}
+
+
+{% block content %}
+<div class="quiz-container">
+    <h1>Quiz des chants d'oiseaux</h1>
+
+    <select id="region-select" class="quiz-region-select">
+        <option value="">Toutes les régions</option>
+        <option value="bretagne">Bretagne</option>
+        <option value="ile-de-france">Ile-de-France</option>
+        <option value="provence-Alpes-Côte d'Azur">Provence-Alpes-Côte d'Azur</option>
+        <!-- Ajoutez d'autres régions -->
+    </select>
+
+    <!-- Mise en page principale : deux colonnes -->
+    <div class="quiz-main-layout">
+
+        
+        <!-- Section gauche : Liste des oiseaux -->
+        <div class="left-section">
+            <h2>Liste des Oiseaux</h2>
+            <!-- Recherche et sélection de la région -->
+            <div>
+                <input type="text" id="search" placeholder="Rechercher" class="quiz-input">
+                <button id="generate-random" class="quiz-button">Générer une liste aléatoire</button>
+                <label for="region-select"></label>
+
+            </div>
+            <!-- Liste des oiseaux -->
+            <div id="oiseaux-list">
+                <ul id="bird-list" class="quiz-bird-list"></ul>
+            </div>
+        </div>
+
+        <!-- Section droite : Génération de liste et quiz -->
+        <div class="right-section">
+            <h2>Génération de Liste et Quiz</h2>
+            <div>
+                <button id="start-quiz" class="quiz-button">Lancer le quiz</button>
+            </div>
+            <!-- Section des questions pour le quiz -->
+            <div id="quiz-section" class="quiz-section"></div>
+            <!-- Message d'erreur -->
+            <div class="quiz-error-message" id="error-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <!-- Lecteur audio pour écouter les chants d'oiseaux -->
+    <audio id="audio-player" style="display:none;" controls>
+        <p>Votre navigateur ne prend pas en charge l'élément audio.</p>
+    </audio>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="{{ url_for('static', filename='js/quiz.js') }}"></script>
+
+{% endblock %}
