@@ -40,7 +40,7 @@
 
         <!-- Section droite : Génération de liste et quiz -->
         <div class="right-section">
-            <h2>Génération de Liste et Quiz</h2>
+            <h2>Quiz</h2>
             <div>
                 <button id="start-quiz" class="quiz-button">Lancer le quiz</button>
             </div>
@@ -55,7 +55,19 @@
     <audio id="audio-player" style="display:none;" controls>
         <p>Votre navigateur ne prend pas en charge l'élément audio.</p>
     </audio>
+
+    
 </div>
+
+
+<h2>Crédits et mentions légales</h2>
+<p>Les fichiers audio utilisés sur ce site sont sous licence Creative Commons BY-NC-SA 4.0. 
+Vous pouvez consulter les détails de la licence sur le site officiel 
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons</a>.</p>
+<h2>Liste des auteurs et sources :</h2>
+<ul>
+    <li>Enregistrements fournis par <a href="https://xeno-canto.org" target="_blank">xeno-canto</a>.</li>
+</ul>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>

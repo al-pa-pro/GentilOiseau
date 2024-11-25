@@ -10,7 +10,7 @@ class Oiseau(db.Model):
     lien = db.Column(db.String(120), nullable=False)
     image = db.Column(db.String(120), nullable=False)
 
-    chants = db.relationship('Chant', backref='oiseau')
+    chants = db.relationship('Chant', back_populates='oiseau')
 
 # Modèle pour les enregistrements
 class Chant(db.Model):
@@ -19,19 +19,26 @@ class Chant(db.Model):
     chemin_chant = db.Column(db.String(200), nullable=False)
     region = db.Column(db.String(100), nullable=False)
 
-    oiseaux = db.relationship('Oiseau', backref='Chant')
+    oiseau = db.relationship('Oiseau', back_populates='chants')
 
 
 class Liste(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    utilisateur_id = db.Column(db.Integer, db.ForeignKey('utilisateur.id'))
-    nom = db.Column(db.String(100), nullable=False)
+    id_liste = db.Column(db.Integer, primary_key=True)
+    utilisateur_id = db.Column(db.Integer, db.ForeignKey('utilisateur.id_utilisateur'))
+    nom_liste = db.Column(db.String(100), nullable=False)
+
+    utilisateur = db.relationship('Utilisateur', backref=db.backref('listes', lazy=True))
+
 
 class ListeOiseau(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    liste_id = db.Column(db.Integer, db.ForeignKey('liste.id'))
-    oiseau_id = db.Column(db.Integer, db.ForeignKey('oiseau.id'))
+    id_oiseau_dans_liste = db.Column(db.Integer, primary_key=True)
+    liste_id = db.Column(db.Integer, db.ForeignKey('liste.id_liste'))
+    oiseau_id = db.Column(db.Integer, db.ForeignKey('oiseau.id_oiseau'))
+    nom_scientifique = db.Column(db.String(120) ,unique=True, nullable=False)
 
+
+    liste = db.relationship('Liste', backref=db.backref('liste_oiseaux', lazy=True))
+    oiseau = db.relationship('Oiseau', backref=db.backref('liste_oiseaux', lazy=True))
 
 
 

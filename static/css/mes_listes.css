@@ -1,0 +1,103 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Espacement entre les sections */
+}
+
+#creation-liste, #listes-existantes {
+    flex: 1; /* Chaque section prend une largeur égale */
+}
+
+/* Section gauche : Création de liste */
+#creation-liste {
+    flex: 1;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#creation-liste h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+#creation-liste form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+#creation-liste form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#creation-liste form button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#creation-liste form button:hover {
+    background-color: #0056b3;
+}
+
+/* Section droite : Listes existantes */
+#listes-existantes {
+    flex: 2;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#listes-existantes h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+#listes-existantes table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#listes-existantes table th, #listes-existantes table td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#listes-existantes table th {
+    background-color: #007bff;
+    color: white;
+}
+
+#listes-existantes table td button {
+    background-color: #dc3545;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#listes-existantes table td button:hover {
+    background-color: #a71d2a;
+}
+
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+}

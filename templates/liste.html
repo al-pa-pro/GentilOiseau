@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block css %} 
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/listes.css') }}">
+
+{% endblock %}
+
+
+{% block content %}
+
+<h2>
+    <p> {{ nom_liste }}</p>
+    <button type="button" class="btn btn-primary" onclick="modifierNom()">Modifier</button>
+  
+    <form id="modifier-form" action="{{ url_for('liste_routes.modifier_nom_liste', liste_id=liste_id) }}" method="POST" style="display:none;">
+      <input type="text" name="nouveau_nom" value="{{ nom_liste }}" required>
+      <button type="submit" class="btn btn-primary">Valider</button>
+    </form>
+</h2>
+
+<div class="container">
+
+    <!-- Utiliser un attribut data-liste-id pour passer la variable liste_id -->
+    <div id="liste-container" data-liste-id="{{ liste_id }}">
+
+
+    <!-- Tableau des oiseaux de la liste -->
+    <div class="table-container">
+        <h2>Oiseaux de la Liste</h2>
+        <table id="oiseaux-liste" class="display">
+            <thead>
+                <tr>
+                    <th>Nom Français</th>
+                    <th>Nom Scientifique</th>
+                    <th>Chant</th>
+                    <th>Supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rempli dynamiquement avec jQuery -->
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+
+    <!-- Tableau des oiseaux disponibles -->
+    <div class="table-container">
+        <h2>Oiseaux Disponibles</h2>
+
+        <select id="region-select" class="quiz-region-select">
+            <option value="">Toutes les régions</option>
+            <option value="bretagne">Bretagne</option>
+            <option value="ile-de-france">Ile-de-France</option>
+            <option value="provence-Alpes-Côte d'Azur">Provence-Alpes-Côte d'Azur</option>
+            <!-- Ajoutez d'autres régions -->
+        </select>
+        
+        <table id="oiseaux-disponibles" class="display">
+            <thead>
+                <tr>
+                    <th>Nom Français</th>
+                    <th>Nom Scientifique</th>
+                    <th>Chant</th>
+                    <th>Ajouter</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rempli dynamiquement avec jQuery -->
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- jQuery et DataTables -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script>
+        $(document).ready(function () {
+            // Récupérer le liste_id depuis l'attribut data-liste-id
+            const listeId = $('#liste-container').data('liste-id');
+
+            // Initialisation des DataTables
+            const tableOiseauxDisponibles = $('#oiseaux-disponibles').DataTable();
+            const tableOiseauxListe = $('#oiseaux-liste').DataTable();
+
+            // Fonction pour charger les oiseaux en fonction de la région sélectionnée
+            function chargerOiseauxParRegion(region) {
+                $.getJSON(`/oiseau-data?region=${region}`, function(data) {
+                    // Vider la table avant de la remplir
+                    tableOiseauxDisponibles.clear();
+
+                    // Ajouter les oiseaux récupérés à la table
+                    data.forEach(oiseau => {
+                        tableOiseauxDisponibles.row.add([
+                            oiseau.nom_français,
+                            oiseau.nom_scientifique,
+                            `<button class="play-btn" data-id="${oiseau.id_oiseau}" data-playing="false">🎵</button>`,
+                            `<form action="/ajouter_oiseau/${listeId}/${oiseau.nom_scientifique}" method="POST">
+                                <button type="submit" class="btn btn-primary">Ajouter</button>
+                            </form>`
+                        ]).draw(false);
+                    });
+                });
+            }
+
+            // Event listener pour le changement de la sélection de la région
+            $('#region-select').change(function() {
+                const selectedRegion = $(this).val();  // Récupère la valeur sélectionnée
+                chargerOiseauxParRegion(selectedRegion);  // Appel de la fonction pour charger les oiseaux selon la région
+            });
+
+            // Chargement initial des oiseaux sans filtrage de région (toutes les régions)
+            chargerOiseauxParRegion('');  // Le paramètre vide signifie "toutes les régions"
+
+
+            // Chargement des oiseaux de la liste
+            $.getJSON(`/liste/${listeId}/oiseaux`, function (data) {
+                data.forEach(oiseau => {
+                    tableOiseauxListe.row.add([
+                        oiseau.nom_français,
+                        oiseau.nom_scientifique,
+                        `<button class="play-btn" data-id="${oiseau.id_oiseau}" data-playing="false">🎵</button>`,
+                        `<form action="/supprimer_oiseau/${listeId}/${oiseau.id_oiseau_dans_liste}" method="POST">
+                        <button type="submit" class="btn btn-primary">Supprimer</button>
+                        </form>`
+                    ]).draw(false);
+                });
+            });
+
+            // Gestion des boutons de lecture/arrêt des chants
+            $(document).on('click', '.play-btn', function () {
+                const button = $(this);
+                const oiseauId = button.data('id');
+                const isPlaying = button.data('playing');
+                let audio = document.querySelector(`#audio-${oiseauId}`);
+
+                if (!audio) {
+                    // Charger les chants via l'API
+                    $.getJSON(`/get-chants/${oiseauId}`, function (chants) {
+                        if (chants.length > 0) {
+                            const audioElement = document.createElement('audio');
+                            audioElement.id = `audio-${oiseauId}`;
+                            audioElement.src = chants[0].chemin_chant;
+                            document.body.appendChild(audioElement);
+                            audio = audioElement;
+
+                            // Lancer la lecture
+                            audio.play();
+                            button.data('playing', true).text('⏸');
+                        }
+                    });
+                } else {
+                    if (isPlaying) {
+                        audio.pause();
+                        button.data('playing', false).text('🎵');
+                    } else {
+                        audio.play();
+                        button.data('playing', true).text('⏸');
+                    }
+                }
+            });
+            
+        });
+
+</script>
+
+<script>
+    function modifierNom() {
+      var form = document.getElementById('modifier-form');
+      // Toggle l'affichage du formulaire
+      if (form.style.display === 'none') {
+        form.style.display = 'block';
+      } else {
+        form.style.display = 'none';
+      }
+    }
+  </script>
+
+
+{% endblock %}

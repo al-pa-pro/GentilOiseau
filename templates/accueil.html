@@ -1,31 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
+    <h1>Bienvenue sur notre site</h1>
+    <p>
+        Ce site est dédié à l’écoute des chants d’oiseau, à leur comparaison et à leur mémorisation.
+        Les chants d’oiseaux sont en libre accès et ont été récupérés sur le site 
+        <a href="https://www.xeno-canto.org/" target="_blank" rel="noopener">xeno-canto</a>.
+    </p>
 
-<section class="hero">
-    <div class="hero-content">
-        <h1>Bienvenue sur GentilOiseau</h1>
-        <p>Plongez dans le monde merveilleux des oiseaux et apprenez à reconnaître leurs chants.</p>
-        <a href="/quiz" class="btn-primary">Commencer le quiz</a>
-    </div>
-</section>
+    <h2>Ce que le site propose :</h2>
+    <ul>
+        <li>
+            Un outil public permettant aux visiteurs d’écouter des chants d’oiseaux. Il suffit d’aller sur la page <strong>Quiz</strong>, de chercher le ou les oiseaux qui vous intéressent, 
+            puis d’appuyer sur « écouter ». 
+            Il est aussi possible de récupérer les chants d’oiseaux en fonction de la région dans laquelle ils ont été enregistrés.
+            (Actuellement, seules la Bretagne et l’Ile-de-France sont disponibles).
+        </li>
+        <li>
+            Un outil public permettant aux visiteurs de générer des quiz à partir d’une sélection d’oiseaux ou d’une génération aléatoire
+            (il est conseillé de sélectionner au moins 3 ou 4 oiseaux).
+        </li>
+    </ul>
 
-<section class="about">
-    <h2>Le chant des oiseaux, une mélodie pour l'âme</h2>
-    <p>Le chant des oiseaux est une symphonie de la nature, chaque note résonne comme un témoignage de la beauté sauvage et fragile de notre monde. À travers ce quiz, découvrez la diversité des espèces et apprenez à reconnaître les sons qui les accompagnent. Un voyage sonore vous attend.</p>
-    <a href="/about" class="btn-secondary">En savoir plus</a>
-</section>
+    <h2>Ce qu’il ne propose pas (encore) :</h2>
+    <ul>
+        <li>Des conseils précis pour l’écoute des chants d’oiseaux.</li>
+        <li>
+            Un outil de détection des chants d’oiseaux. Pour cela, il est recommandé d’utiliser une application comme
+            <a href="https://www.shazam.com/" target="_blank" rel="noopener">Birdned</a>, 
+            qui fonctionne sur le même principe que Shazam mais pour les oiseaux.
+        </li>
+        <li>
+            Un outil de génération par intelligence artificielle d’une liste d’oiseaux selon vos besoins.
+            (Nous vous conseillons d’utiliser <a href="https://chat.openai.com/" target="_blank" rel="noopener">ChatGPT</a>).
+        </li>
+    </ul>
+</div>
 
-<section class="featured">
-    <h2>Pourquoi apprendre les chants des oiseaux ?</h2>
-    <div class="card">
-        <img src="https://example.com/image1.jpg" alt="Chant d'oiseau" />
-        <h3>Un challenge éducatif</h3>
-        <p>Testez vos connaissances et améliorez votre capacité à identifier les oiseaux par leurs chants.</p>
-    </div>
+<br>
 
-</section>
-
-
+<h3>Crédits et mentions légales</h3>
+<p>Les fichiers audio utilisés sur ce site sont sous licence Creative Commons BY-NC-SA 4.0. 
+Vous pouvez consulter les détails de la licence sur le site officiel 
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons</a>.</p>
+<h3> sources :</h3>
+<ul>
+    <li>Enregistrements fournis par <a href="https://xeno-canto.org" target="_blank">xeno-canto</a>.</li>
+</ul>
 
 {% endblock %}

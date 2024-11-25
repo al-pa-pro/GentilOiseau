@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}GentilOiseau - Quiz d'Oiseaux{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     {% block css %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
 </head>
 <body class="page-body">
 
@@ -40,7 +41,7 @@
                         <a href="/quiz" class="nav-link">Quiz</a>
                     </li>
                     <li class="nav-item {{ 'active' if request.path == '/about' else '' }}">
-                        <a href="/about" class="nav-link">À propos</a>
+                        <a href="/about" class="nav-link">À propos </a>
                     </li>
                 </ul>
 
@@ -49,11 +50,8 @@
                         <li class="nav-item">
                             <span class="user-welcome">Bienvenue, {{ current_user.nom_utilisateur }} !</span>
                         </li>
-                        <li class="nav-item {{ 'active' if request.path == '/oiseaux' else '' }}">
-                            <a href="/oiseaux" class="nav-link">Faire une liste</a>
-                        </li>
                         <li class="nav-item {{ 'active' if request.path == '/mes_listes' else '' }}">
-                            <a href="/mes_listes" class="nav-link">Mes quiz</a>
+                            <a href="/mes_listes" class="nav-link">Faire une liste</a>
                         </li>
                         <li class="nav-item {{ 'active' if request.path == '/mes_listes' else '' }}">
                             <a href="/logout" class="nav-link">Déconnexion</a>

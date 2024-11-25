@@ -43,6 +43,8 @@ def register():
     return render_template('register.html')
 
 # Connexion
+from flask import session
+
 @auth_routes.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -51,16 +53,27 @@ def login():
         utilisateur = Utilisateur.query.filter_by(email=email).first()
 
         if utilisateur and check_password_hash(utilisateur.mot_de_passe, mot_de_passe):
+            # Enregistrer l'utilisateur dans la session
+            session['id_utilisateur'] = utilisateur.id_utilisateur
+            session['nom_utilisateur'] = utilisateur.nom_utilisateur
+            session['email_utilisateur'] = utilisateur.email
+
+            # Connexion via Flask-Login
             login_user(utilisateur)
+            
             flash("Connexion réussie !")
             return redirect(url_for('accueil'))
         
+        # Gérer les erreurs
         if not utilisateur:
-                flash("Email non trouvé.")
+            flash("Email non trouvé.")
         else:
-                flash("Mot de passe incorrect.")
+            flash("Mot de passe incorrect.")
 
     return render_template('login.html')
+
+
+
 
 # Réinitialisation de mot de passe
 @auth_routes.route('/forgot_password', methods=['GET', 'POST'])

@@ -243,7 +243,7 @@ a {
 
 
 /* Conteneur du formulaire */
-form {
+form:not() {
     max-width: 500px;
     margin: 0 auto;
     padding: 20px;
@@ -321,4 +321,8 @@ form button:hover {
 form textarea {
     resize: vertical;
     min-height: 100px;
+}
+
+.form-exeption {
+    padding:  0px
 }

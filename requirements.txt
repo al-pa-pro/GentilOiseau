@@ -4,6 +4,7 @@ Flask-Migrate
 Flask-Login
 Flask-WTF
 Flask-Cors
+Flask-Mail
 pandas
 SQLAlchemy
 openpyxl

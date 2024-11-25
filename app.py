@@ -55,6 +55,10 @@ def create_app():
     def quiz():
         return render_template('quiz.html')
     
+    @app.route('/about')
+    def about():
+        return render_template('about.html')
+    
     @app.route('/uploads/<region>/<filename>')
     def serve_audio(region, filename):
         # Vérifier si la région existe dans le dossier uploads

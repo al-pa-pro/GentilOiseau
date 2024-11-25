@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mes_listes.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<header>
+    <h1>Mes Listes</h1>
+
+    <br>
+</header>
+
+<!-- Conteneur div pour les deux sections -->
+<div class="container">
+    <!-- Section gauche : Formulaire pour créer une nouvelle liste -->
+    <section id="creation-liste">
+        <h2>Créer une nouvelle liste vide</h2>
+        <form action="{{ url_for('liste_routes.creer_liste') }}" method="POST" class="general">
+            <label for="nom">Nom de la liste :</label>
+            <input type="text" id="nom" name="nom" required>
+            <button type="submit">Créer</button>
+        </form>
+
+        <br>
+
+        <h2>Générer une nouvelle liste</h2>
+        <form action="{{ url_for('liste_routes.generer_liste') }}" method="POST" class="general">
+            <select id="region-select" class="quiz-region-select">
+                <option value="">Toutes les régions</option>
+                <option value="bretagne">Bretagne</option>
+                <option value="ile-de-france">Ile-de-France</option>
+                <option value="provence-Alpes-Côte d'Azur">Provence-Alpes-Côte d'Azur</option>
+                <!-- Ajoutez d'autres régions -->
+            </select>
+            <label for="nom">Nom de la liste :</label>
+            <input type="text" id="nom" name="nom" required>
+            <label for="nombre-oiseau">Nombre d'oiseau :</label>
+            <input type="text" id="nombre-oiseau" name="nombre-oiseau" required>
+            <button type="submit">Générer</button>
+        </form>
+    </section>
+
+    <!-- Section droite : Affichage des listes existantes -->
+    <section id="listes-existantes">
+        <h2>Vos listes</h2>
+        {% if listes %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom de la liste</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for liste in listes %}
+                        <tr>
+                            <td>{{ liste.nom_liste }}</td>
+                            <td>
+                                <form action="{{ url_for('liste_routes.supprimer_liste', liste_id=liste.id_liste) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="form-exeption" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette liste ?');">
+                                        Supprimer
+                                    </button>
+                                </form>
+                                <form action="{{ url_for('liste_routes.modifier_liste', liste_id=liste.id_liste) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="form-exeption" >
+                                        Modifier
+                                    </button>
+                                </form>
+                                <form  method="POST" style="display:inline;">
+                                    <button type="submit" class="form-exeption" >
+                                        Lancer Quiz !
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Vous n'avez pas encore de liste.</p>
+        {% endif %}
+    </section>
+</div>
+
+{% endblock %}
