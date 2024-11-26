@@ -1,7 +1,7 @@
 .env
 __pycache__
 .pytest_cache
-.venv
+.gentiloiseau
 .vscode
 brouillon.py
 setup.cfg

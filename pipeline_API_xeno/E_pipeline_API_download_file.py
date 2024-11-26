@@ -1,14 +1,16 @@
-import pandas as pd
 import os
+import pandas as pd
+from dotenv import load_dotenv
 import requests
 import sqlite3
 
+# Charger les variables d'environnement
+load_dotenv()
 
 
 def download_file(region):
 
     bdd_path= os.path.join(os.path.dirname(os.path.dirname(__file__)), 'BDDsqlite', 'oiseaux.db')
-    print(bdd_path)
 
     with sqlite3.connect(bdd_path) as conn:
 

@@ -1,4 +1,6 @@
 import os
+
+from waitress import serve
 from dotenv import load_dotenv
 from flask import Flask, render_template, send_from_directory
 from itsdangerous import URLSafeTimedSerializer
@@ -86,4 +88,8 @@ app = create_app()
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=False, port=port)
+    
+    # Lancer l'application Flask avec Waitress, en ajustant les paramètres de timeout
+    serve(app, host='0.0.0.0', port=port, threads=4, connection_limit=1000, timeout=120)
+
+    
