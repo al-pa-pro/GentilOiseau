@@ -51,9 +51,6 @@ def create_app():
     def accueil():
         return render_template('accueil.html')
     
-    @app.route('/quiz')
-    def quiz():
-        return render_template('quiz.html')
     
     @app.route('/about')
     def about():

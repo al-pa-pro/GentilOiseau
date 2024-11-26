@@ -111,6 +111,19 @@ h2 {
     background-color: #0056b3;
 }
 
+
+.quiz-list-select {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    margin-top: 10px; /* Espacement supplémentaire au-dessus */
+    width: 250px; /* Fixe une largeur plus raisonnable pour le select */
+    flex-grow: 1; /* Permet au sélecteur de prendre la place disponible */
+}
+
+
 /* Sélecteur de région */
 .quiz-region-select {
     padding: 10px;
@@ -147,5 +160,93 @@ h2 {
 
 .quiz-input:focus {
     border-color: #007bff; /* Couleur de focus */
+}
+
+
+
+
+/* Styliser la section du quiz */
+#quiz-section {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styliser la question */
+.question {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.question-text {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* Styliser les options de réponse */
+.options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.answer {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 4px;
+    width: 80%;
+    transition: background-color 0.3s ease;
+}
+
+.answer:hover {
+    background-color: #45a049;
+}
+
+.answer:active {
+    background-color: #3e8e41;
+}
+
+/* Styliser le message de résultat */
+.result-message {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Styliser le lecteur audio */
+audio {
+    margin-bottom: 10px;
+}
+
+/* Bouton de question suivant */
+#next-button:hover {
+    background-color: #0b7dda;
+}
+
+#next-button:disabled {
+    background-color: #dcdcdc;
+    cursor: not-allowed;
+}
+
+/* Styliser le bouton de question suivante */
+#next-button {
+    background-color: #2196F3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-size: 1.1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
 }
 

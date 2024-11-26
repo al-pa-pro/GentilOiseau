@@ -69,9 +69,10 @@
                                         Modifier
                                     </button>
                                 </form>
-                                <form  method="POST" style="display:inline;">
+                                </form>
+                                <form  action="{{ url_for('liste_routes.modifier_status', liste_id=liste.id_liste) }}" method="POST" style="display:inline;">
                                     <button type="submit" class="form-exeption" >
-                                        Lancer Quiz !
+                                        status: {{liste.status}}
                                     </button>
                                 </form>
                             </td>

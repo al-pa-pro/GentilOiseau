@@ -10,13 +10,38 @@
 <div class="quiz-container">
     <h1>Quiz des chants d'oiseaux</h1>
 
-    <select id="region-select" class="quiz-region-select">
-        <option value="">Toutes les régions</option>
-        <option value="bretagne">Bretagne</option>
-        <option value="ile-de-france">Ile-de-France</option>
-        <option value="provence-Alpes-Côte d'Azur">Provence-Alpes-Côte d'Azur</option>
-        <!-- Ajoutez d'autres régions -->
-    </select>
+    <div class="selectors-container">
+        <!-- Sélecteur de région -->
+        <select id="region-select" class="quiz-region-select">
+            <option value="">Toutes les régions</option>
+            <option value="bretagne">Bretagne</option>
+            <option value="ile-de-france">Ile-de-France</option>
+            <option value="provence-Alpes-Côte d'Azur">Provence-Alpes-Côte d'Azur</option>
+            <!-- Ajoutez d'autres régions -->
+        </select>
+
+        <!-- Sélecteur de listes publiques -->
+        <select id="public-list-select" class="quiz-list-select">
+            <option value="">Listes publiques</option>
+            {% for liste in listes_publiques %}
+            <option value="{{ liste.id_liste }}">{{ liste.nom_liste }}</option>
+            {% endfor %}
+        </select>
+
+        {% if listes_personnelles %}
+        <!-- Sélecteur de listes perso, visible uniquement pour l'utilisateur connecté -->
+        <select id="private-list-select" class="quiz-list-select">
+            <option value="">Listes personnelles</option>
+            {% for liste in listes_personnelles %}
+                <option value="{{ liste.id_liste }}">{{ liste.nom_liste }}</option>
+            {% endfor %}
+        </select>
+        {% endif %}
+
+        <button id="generate-random" class="quiz-button">Générer une liste aléatoire</button>
+
+    </div>
+
 
     <!-- Mise en page principale : deux colonnes -->
     <div class="quiz-main-layout">
@@ -28,9 +53,7 @@
             <!-- Recherche et sélection de la région -->
             <div>
                 <input type="text" id="search" placeholder="Rechercher" class="quiz-input">
-                <button id="generate-random" class="quiz-button">Générer une liste aléatoire</button>
-                <label for="region-select"></label>
-
+                <button id="select-all-birds" class="quiz-button">Sélectionner</button>
             </div>
             <!-- Liste des oiseaux -->
             <div id="oiseaux-list">
@@ -43,7 +66,26 @@
             <h2>Quiz</h2>
             <div>
                 <button id="start-quiz" class="quiz-button">Lancer le quiz</button>
+                <button id="settings-button" class="quiz-button">Paramètres</button>
+                            <!-- Section Paramètres (initialement cachée) -->
+                <div id="settings-section" style="display:none;">
+                    
+                    <ul>
+                        <li>
+                            <label for="num-questions">Nombre de questions :</label>
+                            <input type="number" id="num-questions" value="5" min="1">
+                        </li>
+                        <li>
+                            <label for="num-options">Nombre de possibilités :</label>
+                            <input type="number" id="num-options" value="3" min="1">
+                        </li>
+
+                        <button id="save-settings" class="quiz-button">Sauvegarder</button>
+
+                    </ul>
+                </div>
             </div>
+            
             <!-- Section des questions pour le quiz -->
             <div id="quiz-section" class="quiz-section"></div>
             <!-- Message d'erreur -->
@@ -59,15 +101,6 @@
     
 </div>
 
-
-<h2>Crédits et mentions légales</h2>
-<p>Les fichiers audio utilisés sur ce site sont sous licence Creative Commons BY-NC-SA 4.0. 
-Vous pouvez consulter les détails de la licence sur le site officiel 
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons</a>.</p>
-<h2>Liste des auteurs et sources :</h2>
-<ul>
-    <li>Enregistrements fournis par <a href="https://xeno-canto.org" target="_blank">xeno-canto</a>.</li>
-</ul>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="{{ url_for('static', filename='js/quiz.js') }}"></script>

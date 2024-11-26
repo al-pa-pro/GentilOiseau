@@ -55,6 +55,27 @@ def supprimer_liste(liste_id):
     return redirect(url_for('liste_routes.mes_listes'))
 
 
+@liste_routes.route('/modifier_status/<int:liste_id>', methods=['POST'])
+@login_required
+def modifier_status(liste_id):
+    id_utilisateur = session.get('id_utilisateur')
+    liste=Liste.query.filter_by(id_liste=liste_id).first()
+    if id_utilisateur == liste.utilisateur_id:
+        if liste.status == "privé":
+            liste.status = "public"
+            db.session.commit()
+            flash(f"Le status de la liste est public.")
+            return(redirect(request.referrer))
+        if liste.status == "public":
+            liste.status = "privé"
+            db.session.commit()
+            flash(f"Le status de la liste est privé.")
+            return(redirect(request.referrer))
+        flash(f"Erreur.")
+        return(redirect(request.referrer))
+    flash(f"Autorisation refusée.")
+    return(redirect(request.referrer))
+
 @liste_routes.route('/modifier_liste/<int:liste_id>', methods=['GET', 'POST'])
 @login_required
 def modifier_liste(liste_id):
@@ -104,7 +125,7 @@ def modifier_nom_liste(liste_id):
     else:
         flash("Liste non trouvée.")
     
-    return redirect(url_for('liste_routes.modifier_liste', liste_id))
+    return redirect(request.referrer)
 
 
 

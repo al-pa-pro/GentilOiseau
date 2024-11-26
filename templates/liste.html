@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
 {% block css %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/liste.css') }}">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/listes.css') }}">
+
 
 {% endblock %}
 
@@ -50,7 +51,7 @@
     <div class="table-container">
         <h2>Oiseaux Disponibles</h2>
 
-        <select id="region-select" class="quiz-region-select">
+        <select id="region-select">
             <option value="">Toutes les régions</option>
             <option value="bretagne">Bretagne</option>
             <option value="ile-de-france">Ile-de-France</option>

@@ -265,7 +265,17 @@ form label {
 form input[type="text"],
 form input[type="email"],
 form input[type="password"],
-form textarea,
+/* Style des zones de texte */
+form textarea {
+    width: 100%; /* La largeur s'ajuste à son conteneur */
+    max-width: 400px; /* Limite la largeur maximale */
+    min-width: 150px; /* Fixe une largeur minimale */
+    padding: 10px; /* Ajoute de l'espace intérieur */
+    border: 1px solid #ccc; /* Bordure fine */
+    border-radius: 5px; /* Coins arrondis */
+    resize: vertical; /* Permet un redimensionnement vertical uniquement */
+    font-size: 16px; /* Taille de police lisible */
+}
 form select {
     width: 100%;
     padding: 10px;
@@ -317,11 +327,7 @@ form button:hover {
     margin-bottom: 16px;
 }
 
-/* Style des zones de texte */
-form textarea {
-    resize: vertical;
-    min-height: 100px;
-}
+
 
 .form-exeption {
     padding:  0px

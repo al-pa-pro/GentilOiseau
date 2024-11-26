@@ -1,18 +1,30 @@
 $(document).ready(function () {
-    // Fonction pour charger les oiseaux en fonction de la région ou de la liste sélectionnée
-    function loadBirds(region = "") {
-        // Si une région est sélectionnée, on charge les oiseaux par région, sinon par liste
-        $.get('/quiz-data', { region: region }, function (data) {
+    // Fonction pour charger les oiseaux en fonction de la liste publique et de la région
+    function loadBirds(listeId = "", region = "") {
+        const params = {};
+        if (listeId) params.liste_id = listeId;
+        if (region) params.region = region;
+
+        $.get('/quiz-data', params, function (data) {
             $('#bird-list').empty(); // Vide la liste actuelle
+
+            // Créer une liste des ID des oiseaux à présélectionner
+            const preselectedIds = data.map(oiseau => oiseau.id_oiseau);
+
+            // Ajouter chaque oiseau à la liste HTML
             data.forEach(oiseau => {
                 $('#bird-list').append(
                     `<li>
-                        <input type="checkbox" value="${oiseau.id_oiseau}">
+                        <input type="checkbox" value="${oiseau.id_oiseau}" 
+                            class="oiseau-checkbox" 
+                            ${preselectedIds.includes(oiseau.id_oiseau) ? 'checked' : ''}>
                         ${oiseau.nom_français} (${oiseau.nom_scientifique})
                         <button class="play-chants" data-oiseau-id="${oiseau.id_oiseau}">Écouter</button>
                     </li>`
                 );
             });
+        }).fail(function () {
+            alert("Une erreur s'est produite lors du chargement des oiseaux.");
         });
     }
 
@@ -52,41 +64,98 @@ $(document).ready(function () {
         }
     }
 
-    // Délégation d'événements : écouteur de clic pour les boutons "Écouter un chant"
+    // Ajouter un gestionnaire pour le bouton "Sélectionner tous les oiseaux"
+    $('#select-all-birds').on('click', function () {
+        const checkboxes = $('#bird-list .oiseau-checkbox');
+        const allChecked = checkboxes.length === checkboxes.filter(':checked').length;
+
+        // Si tous les oiseaux sont déjà sélectionnés, les désélectionner, sinon les sélectionner
+        checkboxes.prop('checked', !allChecked);
+    });
+
+    // Écouteur pour les boutons "Écouter"
     $('#bird-list').on('click', '.play-chants', function () {
         const button = $(this);
         const oiseauId = button.data('oiseau-id');
         playChants(oiseauId, button);
     });
 
-    // Charger les oiseaux initialement (sans filtre)
-    loadBirds();
+    // Réagir au changement de la liste publique
+    $('#public-list-select').on('change', function () {
+        const selectedListId = $(this).val();
+        const selectedRegion = $('#region-select').val(); // Récupérer la région sélectionnée
+        loadBirds(selectedListId, selectedRegion);
+    });
+
+    // Réagir au changement de liste
+    $('#private-list-select').on('change', function () {
+        const selectedListId = $(this).val();
+        const selectedRegion = $('#region-select').val(); // Récupérer la région sélectionnée
+        loadBirds(selectedListId, selectedRegion);
+    });
 
     // Réagir au changement de région
     $('#region-select').on('change', function () {
         const selectedRegion = $(this).val();
-        loadBirds(selectedRegion);
+        const selectedListId = $('#public-list-select').val(); // Récupérer la liste sélectionnée
+        loadBirds(selectedListId, selectedRegion);
     });
 
-
-
+    // Charger les oiseaux initiaux si une région ou une liste est déjà sélectionnée (optionnel)
+    const initialListId = $('#public-list-select').val();
+    const initialRegion = $('#region-select').val();
+    loadBirds(initialListId, initialRegion);
 
     // Générer une liste aléatoire
     $('#generate-random').click(function () {
         const selectedRegion = $('#region-select').val();
         $.get('/quiz-random', { region: selectedRegion }, function (data) {
             $('#bird-list').empty();
+
+            // Créer une liste des ID des oiseaux à présélectionner
+            const preselectedIds = data.map(oiseau => oiseau.id_oiseau);
+
             data.forEach(oiseau => {
                 $('#bird-list').append(
                     `<li>
-                        <input type="checkbox" value="${oiseau.id_oiseau}" checked>
+                        <input type="checkbox" value="${oiseau.id_oiseau}" 
+                            class="oiseau-checkbox" 
+                            ${preselectedIds.includes(oiseau.id_oiseau) ? 'checked' : ''}>
                         ${oiseau.nom_français} (${oiseau.nom_scientifique})
                         <button class="play-chants" data-oiseau-id="${oiseau.id_oiseau}">Écouter</button>
                     </li>`
                 );
             });
+        }).fail(function () {
+            alert("Une erreur s'est produite lors du chargement des oiseaux.");
         });
     });
+
+
+    // Afficher / cacher la section des paramètres au clic du bouton "Paramètres"
+    $('#settings-button').click(function () {
+        $('#settings-section').toggle(); // Affiche ou masque la section des paramètres
+    });
+
+    // Sauvegarder les paramètres au clic du bouton "Sauvegarder"
+    $('#save-settings').click(function () {
+        const numQuestions = $('#num-questions').val();
+        const numOptions = $('#num-options').val();
+
+        // Sauvegarde dans localStorage
+        localStorage.setItem('numQuestions', numQuestions);
+        localStorage.setItem('numOptions', numOptions);
+
+        // Masquer la section des paramètres après la sauvegarde
+        $('#settings-section').hide();
+    });
+
+
+    // Précharger les valeurs depuis localStorage si elles existent
+    if (localStorage.getItem('numQuestions') && localStorage.getItem('numOptions')) {
+        $('#num-questions').val(localStorage.getItem('numQuestions'));
+        $('#num-options').val(localStorage.getItem('numOptions'));
+    }
 
     // Lancer le quiz
     $('#start-quiz').click(function () {
@@ -94,21 +163,34 @@ $(document).ready(function () {
             return $(this).val();
         }).get();
 
+        // Récupérer les paramètres depuis localStorage
+        const numQuestions = localStorage.getItem('numQuestions') || 5;  // Valeur par défaut 5
+        const numOptions = localStorage.getItem('numOptions') || 3;  // Valeur par défaut 3
+
+
         $.ajax({
             url: '/start-quiz',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ selected_ids: selected }),
+            data: JSON.stringify({
+                selected_ids: selected,
+                num_questions: numQuestions,
+                num_options: numOptions
+            }),
             success: function (data) {
-                $('#quiz-section').empty();
-                data.forEach((question, index) => {
+                $('#quiz-section').empty(); // Vide la section du quiz avant de la remplir
+                let currentQuestionIndex = 0; // Commencer avec la première question
+
+                function showQuestion(index) {
+                    const question = data[index];
                     if (question.audio) {
                         const audioUrl = `${question.audio}`;  // Lien vers le fichier audio
-                        
-                        $('#quiz-section').append(
+
+                        $('#quiz-section').html(
                             `<div class="question">
+                                <p class="question-text">Question ${index + 1}: </p>
                                 <audio controls src="${audioUrl}"></audio>
-                                <div>
+                                <div class="options">
                                     ${question.options.map(option => `
                                         <button class="answer" data-id="${option.id_oiseau}" data-correct="${option.correct}" data-correct-name="${question.correct_name}">
                                             ${option.nom_français}
@@ -116,34 +198,50 @@ $(document).ready(function () {
                                     `).join('')}
                                 </div>
                                 <p id="result-${index}" class="result-message"></p>
+                                <button id="next-button" class="next-button" style="display:none;">Question suivante</button>
                             </div>`
                         );
+
+                        // Ajouter l'événement de clic sur les réponses
+                        $('.answer').click(function () {
+                            const isCorrect = $(this).data('correct');
+                            const correctName = $(this).data('correct-name');
+                            const resultMessage = $('#result-' + index);
+
+                            // Afficher le message de résultat
+                            if (isCorrect) {
+                                resultMessage.text('Juste !').css('color', 'green');
+                            } else {
+                                resultMessage.text(`Faux ! Essaie les autres réponses !`).css('color', 'red');
+                            }
+
+                            // Afficher le bouton "Question suivante"
+                            $('#next-button').show();
+                        });
+
+                        // Ajouter l'événement pour le bouton "Question suivante"
+                        $('#next-button').click(function () {
+                            // Cacher le bouton pour la question suivante
+                            $(this).hide();
+
+                            // Passer à la question suivante
+                            if (index + 1 < data.length) {
+                                showQuestion(index + 1);
+                            } else {
+                                $('#quiz-section').append('<p>Le quiz est terminé !</p>');
+                            }
+                        });
                     } else {
                         console.error('Le fichier audio est manquant pour cette question.');
                     }
-                });
+                }
 
-                // Ajouter l'événement de clic sur les réponses
-                $('.answer').click(function () {
-                    const isCorrect = $(this).data('correct');
-                    const correctName = $(this).data('correct-name');
-                    const questionIndex = $(this).closest('.question').index();
-                    const resultMessage = $('#result-' + questionIndex);
-
-                    if (isCorrect) {
-                        resultMessage.text('Juste !').css('color', 'green');
-                    } else {
-                        resultMessage.text(`Faux ! La bonne réponse était : ${correctName}.`).css('color', 'red');
-                    }
-
-                });
-
+                // Commencer avec la première question
+                showQuestion(currentQuestionIndex);
             },
             error: function (xhr, status, error) {
                 console.error('Erreur lors de l\'envoi de la requête : ', error);
             }
         });
     });
-
-
 });

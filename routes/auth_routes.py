@@ -42,9 +42,6 @@ def register():
         return redirect(url_for('auth_routes.login'))
     return render_template('register.html')
 
-# Connexion
-from flask import session
-
 @auth_routes.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

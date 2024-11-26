@@ -26,6 +26,7 @@ class Liste(db.Model):
     id_liste = db.Column(db.Integer, primary_key=True)
     utilisateur_id = db.Column(db.Integer, db.ForeignKey('utilisateur.id_utilisateur'))
     nom_liste = db.Column(db.String(100), nullable=False)
+    status = db.Column(db.String(100), default="privé")
 
     utilisateur = db.relationship('Utilisateur', backref=db.backref('listes', lazy=True))
 
