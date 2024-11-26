@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-dict_region={"ile-de-france":"le-de-france","bretagne":"bretagne"}  #à completer
+dict_region={"ile-de-france":"le-de-france","bretagne":"bretagne","normandie":"normandie"}  #à completer
 
 # Charger le fichier CSV
 def transform_data(region):

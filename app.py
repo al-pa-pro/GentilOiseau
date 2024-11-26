@@ -14,6 +14,11 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 MAIL_USERNAME = os.getenv("MAIL_USERNAME")
 MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+PGUSERNAME = os.getenv("PGUSERNAME")
+PGPASSWORD = os.getenv("PGPASSWORD")
+PGURLINT = os.getenv("PGURLINT")
+PGURLEXT=os.getenv("PGURLEXT")
+PGDATABASE = os.getenv("PGDATABASE")
 
 def create_app():
     app = Flask(__name__)
@@ -21,7 +26,9 @@ def create_app():
 
     # Configurations principales
     app.config['UPLOAD_FOLDER'] = 'static/uploads/'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'BDDsqlite', 'oiseaux.db')
+    #en periode debug
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'BDDsqlite', 'oiseaux.db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://' + PGUSERNAME + ':' + PGPASSWORD + '@' + PGURLINT + '/' + PGDATABASE
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
@@ -79,4 +86,4 @@ app = create_app()
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, port=port)
+    app.run(debug=False, port=port)

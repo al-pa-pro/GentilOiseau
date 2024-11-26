@@ -4,7 +4,7 @@ from C_pipeline_API_xeno_add_type import add_type
 from D_pipeline_API_xeno_final import data_final
 from E_pipeline_API_download_file import download_file
 
-liste_region=["ile-de-france","bretagne"]
+liste_region=["ile-de-france","bretagne","normandie"]
 
 def pipeline_API_without_WAV():
 
@@ -40,5 +40,5 @@ def download():
 
     return()
         
-download()
+
 

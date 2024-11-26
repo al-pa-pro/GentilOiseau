@@ -7,15 +7,15 @@ class Oiseau(db.Model):
     nom_scientifique = db.Column(db.String(120), unique=True, nullable=False)
     nom_anglais = db.Column(db.String(120), nullable=False)
     nom_français = db.Column(db.String(120), nullable=False)
-    lien = db.Column(db.String(120), nullable=False)
-    image = db.Column(db.String(120), nullable=False)
+    lien = db.Column(db.String(120))
+    image = db.Column(db.String(120))
 
     chants = db.relationship('Chant', back_populates='oiseau')
 
 # Modèle pour les enregistrements
 class Chant(db.Model):
     id_chant = db.Column(db.Integer, primary_key=True)
-    nom_scientifique = db.Column(db.String(120), db.ForeignKey('oiseau.nom_scientifique') ,unique=True, nullable=False)
+    nom_scientifique = db.Column(db.String(120), db.ForeignKey('oiseau.nom_scientifique'), nullable=False)
     chemin_chant = db.Column(db.String(200), nullable=False)
     region = db.Column(db.String(100), nullable=False)
 
@@ -49,8 +49,8 @@ class Utilisateur(db.Model):
     id_utilisateur = db.Column(db.Integer, primary_key=True)
     nom_utilisateur = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    mot_de_passe = db.Column(db.String(128), nullable=False)
-    reset_token = db.Column(db.String(120), nullable=True)
+    mot_de_passe = db.Column(db.String(200), nullable=False)
+    reset_token = db.Column(db.String(200), nullable=True)
 
         # Méthodes nécessaires pour Flask-Login
     def is_active(self):
