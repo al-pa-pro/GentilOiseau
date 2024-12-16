@@ -5,19 +5,26 @@ Le site est probablement encore en partie immature et mérite des retours pour s
 
 
 Les technologies utilisées pour sa création sont les suivantes :
-Coding : Visual Studio Code + environnement virtuel
-Python : SQLAlchemy, Flask, Flask-Mail, Flask-Login
-SQL : SQLite (pour le développement), PostgreSQL (pour la production)
-Versioning : Git / GitHub
-Mise en ligne : Render
-Méthode : Programmation Orientée Objet, Programmation Fonctionnelle
-Front : HTML / CSS / JavaScript
+
+1) Coding : Visual Studio Code + environnement virtuel  
+
+2) Python : SQLAlchemy, Flask, Flask-Mail, Flask-Login 
+
+3) SQL : SQLite (pour le développement), PostgreSQL (pour la production)  
+
+4) Versioning : Git / GitHub  
+
+5) Mise en ligne : Render  
+
+6) Méthode : Programmation Orientée Objet, Programmation Fonctionnelle
+  
+7) Front : HTML / CSS / JavaScript  
 
 
 
 Sous-projets élaborés :
 
-Pipeline ETL pour récupérer les chants d'oiseaux (en les extrayant via l'API de xeno-canto). Voir le dossier pipeline_API_xeno.
+Pipeline ETL pour récupérer les chants d'oiseaux (en les extrayant via l'API de xeno-canto). Voir le dossier pipeline_API_xeno.  
 
 Mise en place d'une fonctionnalité de quiz pour les chants d'oiseaux.
 
