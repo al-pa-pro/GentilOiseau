@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:latest   # Image officielle de PostgreSQL
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}   # Utilisateur par défaut de PostgreSQL
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}   # Mot de passe de l'utilisateur
+      POSTGRES_DB: ${POSTGRES_DB}       # Base de données par défaut
+    ports:
+      - "5432:5432"          # Expose le port 5432 pour PostgreSQL
+    volumes:
+      - postgres_data:/var/lib/postgresql/data   # Ajout du volume pour la persistance des données
+    networks:
+      - pg_network           # Définir un réseau pour la communication entre les conteneurs
+
+  pgadmin:
+    image: dpage/pgadmin4    # Image officielle de pgAdmin
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}  # Email par défaut pour se connecter à pgAdmin
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}  # Mot de passe pour pgAdmin
+    ports:
+      - "5050:80"            # Expose le port 5050 pour accéder à pgAdmin dans le navigateur
+    depends_on:
+      - postgres             # pgAdmin dépend de PostgreSQL, il démarrera après PostgreSQL
+    networks:
+      - pg_network           # Utilise le même réseau pour que pgAdmin et PostgreSQL puissent communiquer
+
+  python_app:
+    build: .                  # Construire l'application à partir du Dockerfile dans le répertoire actuel
+    container_name: python_app
+    environment:
+      - DATABASE_URL=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@postgres:5432/$POSTGRES_DB   # Connexion à PostgreSQL
+    env_file:
+      - .env  # Charge le fichier .env
+    depends_on:
+      - postgres               # L'application Python attend que PostgreSQL soit prêt avant de démarrer
+    ports:
+      - "5000:5000"            # Expose le port 5000 pour l'application
+    networks:
+      - pg_network    
+
+
+
+networks:
+  pg_network:
+    driver: bridge           # Crée un réseau bridge pour la communication entre les services
+
+volumes:
+  postgres_data:            # Volume pour persister les données de PostgreSQL

@@ -16,11 +16,9 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 MAIL_USERNAME = os.getenv("MAIL_USERNAME")
 MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
-PGUSERNAME = os.getenv("PGUSERNAME")
-PGPASSWORD = os.getenv("PGPASSWORD")
-PGURLINT = os.getenv("PGURLINT")
-PGURLEXT=os.getenv("PGURLEXT")
-PGDATABASE = os.getenv("PGDATABASE")
+POSTGRES_USER = os.getenv("POSTGRES_USER")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
+POSTGRES_DB = os.getenv("POSTGRES_DB")
 
 def create_app():
     app = Flask(__name__)
@@ -30,7 +28,7 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = 'static/uploads/'
     #en periode debug
     # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.path.dirname(__file__), 'BDDsqlite', 'oiseaux.db')
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://' + PGUSERNAME + ':' + PGPASSWORD + '@' + PGURLINT + '/' + PGDATABASE
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@postgres:5432/{POSTGRES_DB}'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
@@ -87,9 +85,10 @@ app = create_app()
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    
-    # Lancer l'application Flask avec Waitress, en ajustant les paramètres de timeout
-    serve(app, host='0.0.0.0', port=port, threads=4, connection_limit=1000, timeout=120)
+    app.run(host="0.0.0.0", port=5000, debug = True)
+
+
+    """# Lancer l'application Flask avec Waitress, en ajustant les paramètres de timeout
+    serve(app, host='0.0.0.0', port=port, threads=4, connection_limit=1000, timeout=120)"""
 
     

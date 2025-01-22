@@ -1,0 +1,19 @@
+
+
+# Exclure les fichiers et répertoires de développement
+*.pyc
+__pycache__/
+
+
+# Exclure les fichiers de logs
+*.log
+
+# Exclure les fichiers de l'environnement python local
+.gentiloiseau/
+
+# Exclure les fichier de tests
+/tests
+brouillion.py
+Procfile
+
+
